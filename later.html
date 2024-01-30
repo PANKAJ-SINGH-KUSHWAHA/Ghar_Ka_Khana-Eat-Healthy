@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catalogue</title>
+    <link rel="icon" href="IMAGES/LOGO.png" type="image/png"/>
+    <style>
+        /* Global Styles */
+        body {
+            background-image: url('IMAGES/menu.jpg');
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+        }
+        ::-webkit-scrollbar{
+	display: none;
+}
+
+header {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 5px;
+    margin-top: 2px;
+}
+
+.heading 
+{
+	color: green;
+    font-weight: 600;
+	font-size:50px;
+    
+    
+    
+}
+#close-btn{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    gap: 3px;
+    color: rgb(180, 14, 14);
+    
+    margin-top: 15px;
+    font-size: 20px;
+    transition: color 0.3s ease;
+    position: absolute;
+    left: 15px; /* Adjust the left position as needed */
+    top: 15px; 
+}
+
+#close-btn:hover {
+    color: crimson;
+     /* Standard syntax */
+ }
+ #goToCart-btn{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    gap: 3px;
+    color: rgb(180, 14, 14);    
+    margin-top: 15px;
+    font-size: 20px;
+    transition: color 0.3s ease;
+    position: absolute;
+    right: 15px; /* Adjust the left position as needed */
+    top: 15px; 
+}
+
+#goToCart-btn:hover {
+    color: crimson;
+     /* Standard syntax */
+ }
+.head
+{
+    display: flex;
+    color: red;
+}
+.head  #close-btn{
+    cursor: pointer;
+}
+/* CSS for the Go To Cart button */
+.cart-link {
+    text-decoration: none;
+    color: red;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    font-size: 18px;
+    transition: color 0.3s ease;
+}
+
+.cart-link:hover {
+    color: crimson;
+}
+
+.cart-icon {
+    width: 30px;
+    height: auto;
+}
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Soft shadow effect */
+        }
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        h1 {
+            font-size: 42px;
+            color: #2ecc71; /* Green color */
+            margin-top: 0;
+        }
+        /* Food Item Styles */
+        .food-box {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .foodItem {
+            width: 300px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin: 20px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+        .foodItem:hover {
+            transform: translateY(-5px);
+        }
+        .foodImage {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+        }
+        .foodDetail {
+            padding: 20px;
+        }
+        .foodName {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .foodPrice {
+            font-size: 20px;
+            color: #777;
+        }
+        .addToCartButton {
+            background-color: #2ecc71; /* Green color */
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+        .addToCartButton:hover {
+            background-color: #27ae60; /* Darker green on hover */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="head">
+            <span id="close-btn" onclick="closeSignup()">
+                <img width="30px" src="IMAGES/go back.png"> Go Back
+            </span>
+            <span id="goToCart-btn">
+                <a class="cart-link" href="Cart.html">
+                    Go To Cart
+                    <img class="cart-icon" src="IMAGES/go to cart.png" alt="Cart Icon">
+                </a> 
+            </span>
+            <h1 class="heading">Our Menu!</h1>
+        </div>
+        
+    </header>
+    <div class="container">        
+        <div class="food-box">
+            <div class="foodItem">
+                <img class="foodImage" src="Food Images/daal roti sabji.jpg" alt="Daal Roti">
+                <div class="foodDetail">
+                    <div class="foodName">Daal Roti</div>
+                    <div class="foodPrice">&#x20B9; 200</div>
+                    <input type="number" id="quantity_daal_roti" placeholder="Quantity" min="1" value="1">
+                    <button class="addToCartButton" onclick="addToCart('Daal Roti', 200, 'quantity_daal_roti')">Add to Cart</button>
+                </div>
+            </div>
+            <div class="foodItem">
+                <img class="foodImage" src="Food Images/dosa.jpg" alt="Dosa">
+                <div class="foodDetail">
+                    <div class="foodName">Dosa</div>
+                    <div class="foodPrice">&#x20B9; 150</div>
+                    <input type="number" id="quantity_dosa" placeholder="Quantity" min="1" value="1">
+                    <button class="addToCartButton" onclick="addToCart('Dosa', 150, 'quantity_dosa')">Add to Cart</button>
+                </div>
+            </div>
+            <div class="foodItem">
+                <img class="foodImage" src="Food Images/Pudi aalu sabji.jpg" alt="Pudi Aalu Sabji">
+                <div class="foodDetail">
+                    <div class="foodName">Pudi Aalu Sabji</div>
+                    <div class="foodPrice">&#x20B9; 180</div>
+                    <input type="number" id="quantity_pudi_aalu_sabji" placeholder="Quantity" min="1" value="1">
+                    <button class="addToCartButton" onclick="addToCart('Pudi Aalu Sabji', 180, 'quantity_pudi_aalu_sabji')">Add to Cart</button>
+                </div>
+            </div>
+            <!-- Add similar structure for other food items -->
+        </div>
+    </div>
+
+    <script>
+        function closeSignup() {
+            window.history.back(); // Go back to the previous page
+        }
+        
+        function addToCart(food, price, quantityId) {
+            var quantity = document.getElementById(quantityId).value;
+            localStorage.setItem('cartItem', JSON.stringify({ food, price, quantity }));
+            
+        }
+    </script>
+</body>
+</html>

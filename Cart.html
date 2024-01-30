@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Cart</title>
+    <link rel="icon" href="IMAGES/LOGO.png" type="image/png"/>
+    <style>
+        body {
+            background-image: url('IMAGES/background image.jpg');
+            background-position: center;
+            background-size: cover;
+            overflow: scroll;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            gap: 30px;
+            background-color: rgb(231, 231, 231);
+            margin: 0%;
+        }
+
+        ::-webkit-scrollbar {
+            display: none;
+        }
+
+        header {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            margin-top: 2px;
+        }
+
+        .heading {
+            color: green;
+            font-weight: 600;
+            font-size: 50px;
+            background-color: azure;
+        }
+
+        #close-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            gap: 3px;
+            color: rgb(180, 14, 14);
+            margin-top: 15px;
+            font-size: 20px;
+            transition: color 0.3s ease;
+            position: absolute;
+            left: 15px;
+            top: 15px;
+        }
+
+        #close-btn:hover {
+            color: crimson;
+        }
+
+        .head {
+            display: flex;
+            color: red;
+        }
+
+        .head #close-btn {
+            cursor: pointer;
+        }
+
+        h1 {
+            color: red;
+            font-size: 50px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 80%;
+            margin-top: 20px;
+            margin-bottom: 25px;
+            background-color: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            align-items: center;
+            justify-content: center;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            text-align: center;
+            padding: 15px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #cartDisplay {
+            margin-bottom: 20px;
+        }
+
+        #totalPriceDisplay, #amountToPayDisplay {
+            font-size: 18px;
+            color: #333;
+        }
+
+        #actionButtons {
+            display: flex;
+            justify-content: flex-end;
+            margin-right: 10%;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            margin: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .add {
+            background-color: #ddd;
+            width: fit-content;
+            height: fit-content;
+            padding: 2px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: fixed;
+            top: 50%;
+            right: 5%;
+            transform: translateY(-50%);
+        }
+
+        .fit {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 50px;
+        }
+    </style>
+</head>
+
+<body>
+<header>
+    <div class="head">
+        <span id="close-btn" onclick="closeSignup()">
+            <img width="30px" src="IMAGES/go back.png"> Go Back
+        </span>
+        
+    </div>
+</header>
+<h1>Your Cart!</h1>
+    <div class="fit">
+    <div id="cartDisplay">
+        <!-- Cart items will be displayed here -->
+    </div>
+    <div class="add">
+    <div id="totalPriceDisplay">
+        <!-- Total price will be displayed here -->
+    </div>
+    <div id="amountToPayDisplay">
+        <!-- Amount to be paid will be displayed here -->
+    </div>
+    <div>
+        <button onclick="clearCart()">Clear Cart</button>
+        <button onclick="placeOrder()">Place Order</button>
+    </div>
+
+    </div>
+</div>
+
+    <script>
+        function closeSignup() {
+    window.history.back(); // Go back to the previous page
+}
+        function addToCart(food, price) {
+            var cartItems = getCartItems();
+            var existingItem = cartItems.find(item => item.food === food);
+            if (existingItem) {
+                existingItem.quantity++;
+            } else {
+                cartItems.push({ food, price, quantity: 1 });
+            }
+            localStorage.setItem('cartItems', JSON.stringify(cartItems));
+            updateCartDisplay();
+            calculateTotalPrice();
+            displayAmountToPay();
+        }
+
+        function removeFromCart(food) {
+            var cartItems = getCartItems();
+            var itemIndex = cartItems.findIndex(item => item.food === food);
+            if (itemIndex !== -1) {
+                if (cartItems[itemIndex].quantity > 1) {
+                    cartItems[itemIndex].quantity--;
+                } else {
+                    cartItems.splice(itemIndex, 1);
+                }
+                localStorage.setItem('cartItems', JSON.stringify(cartItems));
+                updateCartDisplay();
+                calculateTotalPrice();
+                displayAmountToPay();
+            }
+        }
+
+        function clearCart() {
+            localStorage.removeItem('cartItems');
+            updateCartDisplay();
+            calculateTotalPrice();
+            displayAmountToPay();
+        }
+
+        function getCartItems() {
+            if (localStorage.getItem('cartItems') === null) {
+                return [];
+            } else {
+                return JSON.parse(localStorage.getItem('cartItems'));
+            }
+        }
+
+        function updateCartDisplay() {
+            var cartItems = getCartItems();
+            var cartContent = "<table><tr><th>Food</th><th>Price</th><th>Quantity</th><th>Action</th></tr>"
+            for (var i = 0; i < cartItems.length; i++) {
+                cartContent += "<tr><td>" + cartItems[i].food + "</td><td>" + cartItems[i].price + "</td><td>" + cartItems[i].quantity + "</td><td><button onclick='removeFromCart(\"" + cartItems[i].food + "\")'>Remove</button></td></tr>"
+            }
+            cartContent += "</table>"
+            document.getElementById("cartDisplay").innerHTML = cartContent;
+        }
+
+        function calculateTotalPrice() {
+            var cartItems = getCartItems();
+            var totalPrice = 0;
+            for (var i = 0; i < cartItems.length; i++) {
+                totalPrice += cartItems[i].price * cartItems[i].quantity;
+            }
+            document.getElementById("totalPriceDisplay").innerHTML = "<p>Total Price: &#x20B9; " + totalPrice.toFixed(2) + "</p>";
+        }
+
+        function displayAmountToPay() {
+    var cartItems = getCartItems();
+    var totalAmountToPay = 0;
+
+    if (cartItems.length === 0) {
+        document.getElementById("amountToPayDisplay").innerHTML = "<p>Your cart is empty. Add items to your cart.</p>";
+    } else {
+        for (var i = 0; i < cartItems.length; i++) {
+            totalAmountToPay += cartItems[i].price * cartItems[i].quantity;
+        }
+        document.getElementById("amountToPayDisplay").innerHTML = "<p>Amount to be Paid: &#x20B9; " + totalAmountToPay.toFixed(2) + "</p>";
+    }
+}
+
+
+function placeOrder() {
+    var cartItems = getCartItems();
+
+    if (cartItems.length === 0) {
+        alert("Your cart is empty. Add items to your cart before placing an order.");
+    } else {
+        alert("Order placed successfully!");
+        clearCart();
+    }
+}
+
+        // Assuming the cart page is loaded after the Catalogue page
+        window.onload = function () {
+            updateCartDisplay();
+            calculateTotalPrice();
+            displayAmountToPay();
+        }
+    </script>
+</body>
+
+</html>
